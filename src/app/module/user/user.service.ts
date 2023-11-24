@@ -45,7 +45,7 @@ const updateSignleUserDb = async (userId: string, body: IUser) => {
     throw new Error(
       'User found but not updated!. please make sure provide a unique value for unique property',
     );
-  return { ...result, data: { ...isUser, body } };
+  return { ...result, data: { ...isUser, ...body } };
 };
 
 const deleteSingleUserDB = async (userId: string) => {
