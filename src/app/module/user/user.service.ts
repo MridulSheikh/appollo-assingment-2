@@ -51,6 +51,9 @@ const updateSignleUserDb = async (userId: string, body: IUser) => {
   const result = await User.findOneAndUpdate(
     { userId: parseInt(userId) },
     body,
+    {
+      new: true,
+    },
   );
   return result;
 };

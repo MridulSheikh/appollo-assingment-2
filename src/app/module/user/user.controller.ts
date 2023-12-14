@@ -73,7 +73,7 @@ const updatSingleUserControllerDB = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: 'User not updated!',
+      message: error.message || 'User not updated!',
       error: {
         code: 404,
         description: error.message,
@@ -95,7 +95,7 @@ const deleteSingleUserControllerDB = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: 'User not deleted!',
+      message: error.message || 'User not deleted!',
       error: {
         code: 404,
         description: error.message,
