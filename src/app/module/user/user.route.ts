@@ -7,7 +7,13 @@ router
   .route('/')
   .post(userController.createUserControllerDB)
   .get(userController.getAllUserControllerDB);
-router.route('/:userId/orders').put(orderController.createOrder);
+router
+  .route('/:userId/orders/total-price')
+  .get(orderController.getTotalPriceForSpacipicUser);
+router
+  .route('/:userId/orders')
+  .put(orderController.createOrder)
+  .get(orderController.getOrderForSpacificUser);
 router
   .route('/:userId')
   .get(userController.getSingleUserDB)

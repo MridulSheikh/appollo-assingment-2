@@ -27,6 +27,54 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+const getOrderForSpacificUser = async (req: Request, res: Response) => {
+  try {
+    const orders = await orderServices.getOrderForSpacificUser(
+      req.params.userId,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: orders,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'order not found!',
+      error: {
+        code: 404,
+        description: err.message,
+      },
+    });
+  }
+};
+
+const getTotalPriceForSpacipicUser = async (req: Request, res: Response) => {
+  try {
+    const result = await orderServices.getTotalPriceForSpacipicUser(
+      req.params.userId,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: {
+        totalPrice: result,
+      },
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+      error: {
+        code: 404,
+        description: err.message,
+      },
+    });
+  }
+};
+
 export const orderController = {
   createOrder,
+  getOrderForSpacificUser,
+  getTotalPriceForSpacipicUser,
 };
