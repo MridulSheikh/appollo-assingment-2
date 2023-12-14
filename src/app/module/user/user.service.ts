@@ -1,5 +1,7 @@
 import { User } from './user.model';
 import { IUser } from './user.interface';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const createUserServiceDB = async (user: IUser) => {
   return await User.create(user);
@@ -40,12 +42,17 @@ const getSingleUserDB = async (userId: string) => {
 const updateSignleUserDb = async (userId: string, body: IUser) => {
   const isUser = await User.isUserExists(userId);
   if (!isUser?.fullName) throw new Error('User not found!');
-  const result = await User.updateOne({ userId: parseInt(userId) }, body);
-  if (result.modifiedCount === 0)
-    throw new Error(
-      'User found but not updated!. please make sure provide a unique value for unique property',
+  if (body.password) {
+    body.password = await bcrypt.hash(
+      body.password,
+      Number(config.bcrypt_salt_round),
     );
-  return { ...result, data: { ...isUser, ...body } };
+  }
+  const result = await User.findOneAndUpdate(
+    { userId: parseInt(userId) },
+    body,
+  );
+  return result;
 };
 
 const deleteSingleUserDB = async (userId: string) => {

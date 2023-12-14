@@ -24,6 +24,7 @@ export const userVlidationSchema = Joi.object({
   fullName: userNameValidationSchema,
   age: Joi.number(),
   email: Joi.string().email(),
+  isActive: Joi.boolean().default(true),
   hobbies: Joi.array().items(Joi.string()),
   address: addressValidationSchema,
   orders: Joi.array().items(orderValidtaionSchema),

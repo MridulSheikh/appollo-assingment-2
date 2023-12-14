@@ -67,7 +67,7 @@ const updatSingleUserControllerDB = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'User update successfully!',
-      data: result.data,
+      data: result,
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
