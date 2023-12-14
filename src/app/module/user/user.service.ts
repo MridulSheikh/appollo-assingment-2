@@ -50,13 +50,14 @@ const updateSignleUserDb = async (userId: string, body: IUser) => {
       Number(config.bcrypt_salt_round),
     );
   }
-  const result = await User.findOneAndUpdate(
+  const updateUser = await User.findOneAndUpdate(
     { userId: parseInt(userId) },
     body,
     {
       new: true,
     },
   );
+  const result = await User.findById(updateUser?._id).select('-_id -orders');
   return result;
 };
 
