@@ -4,7 +4,9 @@ import bcrypt from 'bcrypt';
 import config from '../../config';
 
 const createUserServiceDB = async (user: IUser) => {
-  return await User.create(user);
+  const createdUser = await User.create(user);
+  const result = await User.findById(createdUser._id).select('-_id -orders');
+  return result;
 };
 
 const getAllUserServiceDB = async () => {
