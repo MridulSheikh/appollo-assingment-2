@@ -10,90 +10,111 @@ import {
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const userNameSchema = new Schema<IUserName>({
-  firstName: {
-    type: String,
-    required: [true, 'first name required '],
+const userNameSchema = new Schema<IUserName>(
+  {
+    firstName: {
+      type: String,
+      required: [true, 'first name required '],
+    },
+    lastName: {
+      type: String,
+      required: [true, 'last name required '],
+    },
   },
-  lastName: {
-    type: String,
-    required: [true, 'last name required '],
+  {
+    _id: false,
   },
-});
+);
 
-const addressSchema = new Schema<IAddress>({
-  street: {
-    type: String,
-    required: [true, 'street is required'],
+const addressSchema = new Schema<IAddress>(
+  {
+    street: {
+      type: String,
+      required: [true, 'street is required'],
+    },
+    city: {
+      type: String,
+      required: [true, 'city is required'],
+    },
+    country: {
+      type: String,
+      required: [true, 'country is required'],
+    },
   },
-  city: {
-    type: String,
-    required: [true, 'city is required'],
+  {
+    _id: false,
   },
-  country: {
-    type: String,
-    required: [true, 'country is required'],
-  },
-});
+);
 
-const orderSchema = new Schema<IOrder>({
-  productName: {
-    type: String,
-    required: [true, 'product name is required'],
+const orderSchema = new Schema<IOrder>(
+  {
+    productName: {
+      type: String,
+      required: [true, 'product name is required'],
+    },
+    price: {
+      type: Number,
+      required: [true, 'price is required'],
+    },
+    quantity: {
+      type: Number,
+      required: [true, 'quantity is required'],
+    },
   },
-  price: {
-    type: Number,
-    required: [true, 'price is required'],
+  {
+    _id: false,
   },
-  quantity: {
-    type: Number,
-    required: [true, 'quantity is required'],
-  },
-});
+);
 
-const userSchema = new Schema<IUser, UserModel>({
-  userId: {
-    type: Number,
-    required: [true, 'userId is required'],
-    unique: true,
+const userSchema = new Schema<IUser, UserModel>(
+  {
+    userId: {
+      type: Number,
+      required: [true, 'userId is required'],
+      unique: true,
+    },
+    username: {
+      type: String,
+      required: [true, 'username is required'],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'password is required'],
+      select: false,
+    },
+    fullName: {
+      type: userNameSchema,
+      required: [true, 'full name is mustbe require'],
+    },
+    age: {
+      type: Number,
+      required: [true, 'age is required'],
+    },
+    email: {
+      type: String,
+      required: [true, 'email is required'],
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    hobbies: {
+      type: [String],
+      required: [true, 'hobbies is required'],
+    },
+    address: {
+      type: addressSchema,
+      required: [true, 'address is required'],
+    },
+    orders: {
+      type: [orderSchema],
+    },
   },
-  username: {
-    type: String,
-    required: [true, 'username is required'],
-    unique: true,
+  {
+    versionKey: false,
   },
-  password: {
-    type: String,
-    required: [true, 'password is required'],
-  },
-  fullName: {
-    type: userNameSchema,
-    required: [true, 'full name is mustbe require'],
-  },
-  age: {
-    type: Number,
-    required: [true, 'age is required'],
-  },
-  email: {
-    type: String,
-    required: [true, 'email is required'],
-  },
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
-  hobbies: {
-    type: [String],
-    required: [true, 'hobbies is required'],
-  },
-  address: {
-    type: addressSchema,
-    required: [true, 'address is required'],
-  },
-  orders: {
-    type: [orderSchema],
-  },
-});
+);
 
 // this pre middleware for convert password hash
 userSchema.pre<IUser>('save', async function (next) {
